@@ -14,9 +14,9 @@ export const authAccess = (req, res, next) => {
     const decoded = jwt.verify(token, "kya_dekh_raha_hai_binod");
     console.log("decoded", decoded);
     req.user = decoded;
-    next()
+    next();
   } catch (error) {
     console.log(error);
-    return res.status(501).json("error occurs while deconding the data")
+    return res.status(501).json("error occurs while deconding the data");
   }
 };

@@ -7,22 +7,18 @@ const todoShcema = new mongoose.Schema({
     trim: true,
   },
   description: {
-    title: String,
+    type: String,
     required: true,
     trim: true,
   },
-  status: {
-    type: Boolean,
-  },
+  status: Boolean,
   id: {
     type: String,
     required: true,
     trim: true,
   },
-});
+},{timestamps:true});
 
-const TODO = mongoose.model("TODO", todoShcema);
-
-
+const TODO = mongoose.model("TODO",todoShcema);
 
 export default TODO;
