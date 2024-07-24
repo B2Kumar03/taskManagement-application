@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
     filterTodosByStatus,
   getAllTodosForUser,
+  getAllTodosForUserPagination,
   todoCreater,
   todoDeleter,
   todoUpdater,
@@ -15,5 +16,6 @@ todo_route.route("/update-todos/:id").patch(todoUpdater);
 todo_route.route("/delete-todo/:id").delete(todoDeleter);
 todo_route.route("/todo").get(filterTodosByStatus)
 todo_route.route("/getTodo").get(authAccess,getAllTodosForUser)
+todo_route.route("/get-todos").get(authAccess,getAllTodosForUserPagination)
 
 export default todo_route;

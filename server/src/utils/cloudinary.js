@@ -3,14 +3,12 @@ import fs from "fs";
 
 import dotenv from "dotenv"
 import { format } from "path";
-dotenv.config()
-
-// Configuration
+dotenv.config({ path: "src/.env" });
 
 cloudinary.config({
-  cloud_name:"dqxb5eram",
-  api_key:"285549978784612",
-  api_secret:"Dk4SsUuO85MGAhmLsWsgPCebyoE",
+  cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:process.env.CLOUDINARY_API_KEY,
+  api_secret:process.env.CLOUDINARY_API_SECRET,
 });
 
 

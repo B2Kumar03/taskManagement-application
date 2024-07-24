@@ -98,13 +98,11 @@ const filterTodosByStatus = async (req, res) => {
       .status(200)
       .json({ message: "Todos fetched successfully", data: todos });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Internal server error",
-        success: false,
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+      error: error.message,
+    });
   }
 };
 const getAllTodosForUser = async (req, res) => {
@@ -120,9 +118,55 @@ const getAllTodosForUser = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Internal server error", success: false, error: error.message });
+      .json({
+        message: "Internal server error",
+        success: false,
+        error: error.message,
+      });
+  }
+};
+const getAllTodosForUserPagination = async (req, res) => {
+  const userId = req.user.email; // Assuming `req.user.email` holds the authenticated user's email
+
+  // Get page and limit from query parameters, and set default values if not provided
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  // Calculate the starting index of the items to be fetched
+  const startIndex = (page - 1) * limit;
+
+  try {
+    // Fetch todos for the specific user with pagination
+    const todos = await TODO.find({ id: userId }).skip(startIndex).limit(limit);
+
+    // Get the total count of todos for the user
+    const totalTodos = await TODO.countDocuments({ id: userId });
+
+    return res.status(200).json({
+      message: "Todos fetched successfully",
+      data: todos,
+      pagination: {
+        totalTodos,
+        currentPage: page,
+        totalPages: Math.ceil(totalTodos / limit),
+        hasNextPage: startIndex + limit < totalTodos,
+        hasPrevPage: startIndex > 0,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+      error: error.message,
+    });
   }
 };
 
-
-export { todoCreater, todoUpdater, todoDeleter, filterTodosByStatus,getAllTodosForUser };
+export {
+  todoCreater,
+  todoUpdater,
+  todoDeleter,
+  filterTodosByStatus,
+  getAllTodosForUser,
+  getAllTodosForUserPagination
+};

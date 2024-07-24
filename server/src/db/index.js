@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config({ path: "src/.env" });
+const url = process.env.DBURI;
 export const DatabseConncetion = async () => {
   try {
-    const mongoInstance = await mongoose.connect(
-      "mongodb+srv://bk7355583:kcRXgi0BetELo6Oj@cluster0.l8wlsuu.mongodb.net/newApp"
-    );
+    const mongoInstance = await mongoose.connect(url);
 
     console.log("Databse connected successfully✅");
   } catch (error) {
